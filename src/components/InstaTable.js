@@ -5,17 +5,28 @@ const InstaTable = () => {
   const [depth, setDepth] = useState([])
 
   const fetchData = () => {
-    fetch("https://zrzm31hhuk.execute-api.us-east-2.amazonaws.com/dev/depth?exchange=Insta&product=prod&user=julien")
+    fetch("https://api.instabid.io/depth?exchange=Insta&product=prod&user=julien")
       .then(response => {
         return response.json()
       })
       .then(data => {
-        setDepth(JSON.parse(data.body).result)
+        setDepth(data)
       })
   }
 
   useEffect(() => {
     fetchData()
+
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('122f17b065e8921fa6e0', {
+        cluster: 'us2'
+    });
+
+    const channel = pusher.subscribe('Insta@prod');
+    channel.bind('DEPTHUPDATE', function (data) {
+        alert(JSON.stringify(data));
+    });
 
   }, [])
 
