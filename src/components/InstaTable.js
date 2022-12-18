@@ -6,8 +6,9 @@ const CHANNEL_NAME = "Insta@prod";
 
 
 const InstaTable = () => {
-  const [depth, setDepth] = useState([])
-
+  const [buys, setBuys] = useState([]);
+  const [sells, setSells] = useState([]);
+  const [pusher, setPusher] = useState(undefined);
 
 
   const fetchData = () => {
@@ -16,7 +17,8 @@ const InstaTable = () => {
         return response.json()
       })
       .then(data => {
-        setDepth(data)
+        setBuys(data.buys);
+        setSells(data.sells);
       })
   }
 
@@ -39,9 +41,7 @@ const InstaTable = () => {
 
 
   
-    const [buys, setBuys] = useState([]);
-    const [sells, setSells] = useState([]);
-    const [pusher, setPusher] = useState(undefined);
+
   
     useEffect(() => {
       setPusher(
